@@ -2,8 +2,8 @@
  *  Compilation:  javac Insertion.java
  *  Execution:    java Insertion < input.txt
  *  Dependencies: StdOut.java StdIn.java
- *  Data files:   http://algs4.cs.princeton.edu/21sort/tiny.txt
- *                http://algs4.cs.princeton.edu/21sort/words3.txt
+ *  Data files:   http://algs4.cs.princeton.edu/21elementary/tiny.txt
+ *                http://algs4.cs.princeton.edu/21elementary/words3.txt
  *  
  *  Sorts a sequence of strings from standard input using insertion sort.
  *
@@ -67,13 +67,13 @@ public class Insertion {
     }
 
     /**
-     * Rearranges the subarray a[lo..hi] in ascending order, using the natural order.
+     * Rearranges the subarray a[lo..hi) in ascending order, using the natural order.
      * @param a the array to be sorted
-     * @param lo left endpoint
-     * @param hi right endpoint
+     * @param lo left endpoint (inclusive)
+     * @param hi right endpoint (exclusive)
      */
     public static void sort(Comparable[] a, int lo, int hi) {
-        for (int i = lo; i <= hi; i++) {
+        for (int i = lo; i < hi; i++) {
             for (int j = i; j > lo && less(a[j], a[j-1]); j--) {
                 exch(a, j, j-1);
             }
@@ -98,14 +98,14 @@ public class Insertion {
     }
 
     /**
-     * Rearranges the subarray a[lo..hi] in ascending order, using a comparator.
+     * Rearranges the subarray a[lo..hi) in ascending order, using a comparator.
      * @param a the array
-     * @param lo left endpoint
-     * @param hi right endpoint
+     * @param lo left endpoint (inclusive)
+     * @param hi right endpoint (exclusive)
      * @param comparator the comparator specifying the order
      */
     public static void sort(Object[] a, int lo, int hi, Comparator comparator) {
-        for (int i = lo; i <= hi; i++) {
+        for (int i = lo; i < hi; i++) {
             for (int j = i; j > lo && less(a[j], a[j-1], comparator); j--) {
                 exch(a, j, j-1);
             }
@@ -167,23 +167,23 @@ public class Insertion {
     *  Check if array is sorted - useful for debugging.
     ***************************************************************************/
     private static boolean isSorted(Comparable[] a) {
-        return isSorted(a, 0, a.length - 1);
+        return isSorted(a, 0, a.length);
     }
 
-    // is the array sorted from a[lo] to a[hi]
+    // is the array a[lo..hi) sorted
     private static boolean isSorted(Comparable[] a, int lo, int hi) {
-        for (int i = lo+1; i <= hi; i++)
+        for (int i = lo+1; i < hi; i++)
             if (less(a[i], a[i-1])) return false;
         return true;
     }
 
     private static boolean isSorted(Object[] a, Comparator comparator) {
-        return isSorted(a, 0, a.length - 1, comparator);
+        return isSorted(a, 0, a.length, comparator);
     }
 
-    // is the array sorted from a[lo] to a[hi]
+    // is the array a[lo..hi) sorted
     private static boolean isSorted(Object[] a, int lo, int hi, Comparator comparator) {
-        for (int i = lo + 1; i <= hi; i++)
+        for (int i = lo+1; i < hi; i++)
             if (less(a[i], a[i-1], comparator)) return false;
         return true;
     }
